@@ -41,10 +41,35 @@ export class Bg extends Component {
 
     }
 
+    moveGroud() {
+        //移动地面
+        let groud1Pos = this.groud1.position;
+        let groud2Pos = this.groud2.position;
+        let groud1Size = this.groud1.getComponent(UITransform).getBoundingBox()
+        let width = groud1Size.width - 1;
+        if(groud1Pos.x < - width + 7 ) {
+            // console.log('地面1', groud1Pos.x, '地面2', groud2Pos.x);
+            this.groud1.setPosition( groud2Pos.x + width, groud1Pos.y); 
+        } else {  
+            this.groud1.setPosition(groud1Pos.x - this._moveBgSpeed * 3, groud1Pos.y);   
+        }
+
+        if(groud2Pos.x < - width + 7 ) {
+            // console.log('地面1', groud1Pos.x, '地面2', groud2Pos.x);
+            this.groud2.setPosition(groud1Pos.x + width, groud2Pos.y); 
+        } else {
+            this.groud2.setPosition(groud2Pos.x - this._moveBgSpeed * 3, groud2Pos.y);       
+        }
+
+
+
+    }
+
     start() {
         this.schedule(function(){
             this.moveBg();
-        }, 0.01);
+            this.moveGroud();
+        }, 0.05);
 
     }
 
