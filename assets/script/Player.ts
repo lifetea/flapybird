@@ -47,8 +47,7 @@ export class Player extends Component {
         regid.linearVelocity = v2(0, 0)
         regid.gravityScale = 1
         
-        // this.audio.playOneShot(this.wingClip, 1);
-        // this.audio.playOneShot(this.wingClip, 0.8)
+        this.audio.playOneShot(this.wingClip, 1);
         // regid.linearVelocity.y = 0
         // console.log(this.node.position);
 
