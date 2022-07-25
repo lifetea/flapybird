@@ -45,7 +45,7 @@ export class Player extends Component {
         tween(this.node).to(0.4, {position:v3(pos.x, pos.y+ 150)}, {easing:'sineOut'}).start();
         // this.node.setPosition(v3(pos.x, pos.y+ 150))
         regid.linearVelocity = v2(0, 0)
-        regid.gravityScale = 1
+        regid.gravityScale = 0.6
         
         this.audio.playOneShot(this.wingClip, 1);
         // regid.linearVelocity.y = 0
