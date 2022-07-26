@@ -5,5 +5,17 @@
       "height": 667,
       "width": 375
     }
+  },
+  "physics": {
+    "collisionMatrix": {
+      "0": 1,
+      "1": 2
+    },
+    "collisionGroups": [
+      {
+        "index": 1,
+        "name": "test"
+      }
+    ]
   }
 }
