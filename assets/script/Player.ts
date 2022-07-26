@@ -8,6 +8,9 @@ export class Player extends Component {
         //键盘事件
         input.on(Input.EventType.KEY_DOWN, this.keyDown, this);
         input.on(Input.EventType.KEY_UP, this.keyUp, this);    
+
+        //键盘事件
+        // input.on(Input.EventType.KEY_DOWN, this.keyDown, this);
     }
 
     fly(){

@@ -423,7 +423,7 @@
       "id": "5db14",
       "name": "base",
       "userData": {
-        "trimType": "auto",
+        "trimType": "none",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,

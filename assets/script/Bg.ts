@@ -47,18 +47,18 @@ export class Bg extends Component {
         let groud2Pos = this.groud2.position;
         let groud1Size = this.groud1.getComponent(UITransform).getBoundingBox()
         let width = groud1Size.width;
-        if(groud1Pos.x < - width + 4 ) {
-            // console.log('地面1', groud1Pos.x, '地面2', groud2Pos.x);
-            this.groud1.setPosition( groud2Pos.x + width, groud1Pos.y); 
+        if(groud1Pos.x < - width + 40 ) {
+            // console.log('地面1', groud1Pos.x, '地面2', groud2Pos.x, '差值:', groud1Pos.x - groud2Pos.x);
+            this.groud1.setPosition( groud2Pos.x + width -5, groud1Pos.y); 
         } else {  
-            this.groud1.setPosition(groud1Pos.x - (this._moveBgSpeed * 3), groud1Pos.y);   
+            this.groud1.setPosition(groud1Pos.x - (this._moveBgSpeed * 5), groud1Pos.y);   
         }
 
-        if(groud2Pos.x < - width + 4 ) {
-            // console.log('地面1', groud1Pos.x, '地面2', groud2Pos.x);
-            this.groud2.setPosition(groud1Pos.x + width, groud2Pos.y); 
+        if(groud2Pos.x < - width + 40 ) {
+            // console.log('地面1',w groud1Pos.x, '地面2', groud2Pos.x, '差值:', groud1Pos.x - groud2Pos.x);
+            this.groud2.setPosition(groud1Pos.x + width -5 , groud2Pos.y); 
         } else {
-            this.groud2.setPosition(groud2Pos.x - (this._moveBgSpeed * 3), groud2Pos.y);       
+            this.groud2.setPosition(groud2Pos.x - (this._moveBgSpeed * 5), groud2Pos.y);       
         }
 
 
@@ -67,6 +67,7 @@ export class Bg extends Component {
 
     start() {
         this.schedule(function(){
+        
             this.moveBg();
             this.moveGroud();
         }, 0.05);
