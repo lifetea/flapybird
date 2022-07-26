@@ -1,16 +1,41 @@
-import { _decorator, Component, Node, input, EventKeyboard, Input, NodeEventType, KeyCode, tween, v3, RigidBody2D, RigidBody, v2 } from 'cc';
+import { _decorator, Component, Node, input, EventKeyboard, Input, NodeEventType, KeyCode, tween, v3, RigidBody2D, RigidBody, v2, AudioSource, AudioClip, Collider2D, Contact2DType, IPhysics2DContact } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('Player')
 export class Player extends Component {
 
+    private audio: AudioSource
+
+    @property({type: AudioClip})
+    wingClip: AudioClip = null;
+
+    @property({type: AudioClip})
+    dieClip: AudioClip = null;
+
+
     onLoad() {
+        console.log("加载了", this.wingClip);
+        //声音播放
+        this. audio = this.node.getComponent(AudioSource)
         //键盘事件
         input.on(Input.EventType.KEY_DOWN, this.keyDown, this);
-        input.on(Input.EventType.KEY_UP, this.keyUp, this);    
+        input.on(Input.EventType.KEY_UP, this.keyUp, this);  
+        
+        //注册单个碰撞回调  
+        let collider = this.getComponent(Collider2D);
+        // console.log(collider)
+        if (collider) {
+            collider.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
+        }
+    }
 
-        //键盘事件
-        // input.on(Input.EventType.KEY_DOWN, this.keyDown, this);
+    onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
+
+        console.log("碰撞了");
+        if(otherCollider.tag == 2 ){
+            this.audio.playOneShot(this.dieClip, 1);
+            // this.node.destroy();
+        }
     }
 
     fly(){
@@ -20,7 +45,9 @@ export class Player extends Component {
         tween(this.node).to(0.4, {position:v3(pos.x, pos.y+ 150)}, {easing:'sineOut'}).start();
         // this.node.setPosition(v3(pos.x, pos.y+ 150))
         regid.linearVelocity = v2(0, 0)
-
+        regid.gravityScale = 0.6
+        
+        this.audio.playOneShot(this.wingClip, 1);
         // regid.linearVelocity.y = 0
         // console.log(this.node.position);
 
