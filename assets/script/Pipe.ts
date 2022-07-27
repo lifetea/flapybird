@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Collider2D, IPhysics2DContact, Contact2DType, RigidBody2D, PhysicsSystem2D, Vec3, v3 } from 'cc';
+import { _decorator, Component, Node, Collider2D, IPhysics2DContact, Contact2DType, RigidBody2D, PhysicsSystem2D, Vec3, v3, math } from 'cc';
 import { Global } from './Gobal';
 const { ccclass, property } = _decorator;
 
@@ -8,8 +8,14 @@ export class Pipe extends Component {
 
     private global:Global = Global.getInstance()
 
+    private randY:number = 0;
+
     start() {
         this.schedule(this.move, 0.01);
+    }
+
+    setRand(){
+        this.randY = math.randomRangeInt(-40, 40)
     }
 
     move(){
@@ -35,11 +41,11 @@ export class Pipe extends Component {
 
         let pipe2 = this.node.getChildByName('pipe2');
         let pos2 = pipe2.getWorldPosition();
-        pipe2.setWorldPosition(v3(pos.x, pos2.y, pos2.z));
+        pipe2.setWorldPosition(v3(pos.x, pos.y + 280, pos2.z));
 
         let pipe1 = this.node.getChildByName('pipe1');
         let pos1 = pipe1.getWorldPosition();
-        pipe1.setWorldPosition(v3(pos.x, pos1.y, pos1.z));
+        pipe1.setWorldPosition(v3(pos.x, pos.y - 200 + this.randY, pos1.z));
 
         let pipe3 = this.node.getChildByName('pipe3');
         let pos3 = pipe3.getWorldPosition();

@@ -1,5 +1,6 @@
 import { _decorator, Component, Node, NodePool, Prefab, instantiate, resources, director, Vec3, RigidBody2D } from 'cc';
 import { Game } from './Game';
+import { Pipe } from './Pipe';
 // import { Enemy } from './Enemy';
 const { ccclass, property } = _decorator;
 
@@ -160,3 +161,6 @@ export class Global{
     // }
 
 }
+
+
+// export let global = Global.getInstance()

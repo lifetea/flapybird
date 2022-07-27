@@ -1,5 +1,6 @@
 import { _decorator, Component, Node, input, Input, EventKeyboard, KeyCode, Prefab, director, math, v2, Scene, v3, Label, RigidBody2D, PhysicsSystem2D, EPhysics2DDrawFlags } from 'cc';
 import { Global } from './Gobal';
+import { Pipe } from './Pipe';
 import { Player } from './Player';
 const { ccclass, property } = _decorator;
 
@@ -25,19 +26,17 @@ export class Game extends Component {
             return;
         }
         let x = 240;
-        let y = math.randomRangeInt(-80, 80)
+        let y = math.randomRangeInt(-60, 60)
         let lastPipe = this.global.getLatestPipe();
         let pipe = this.global.createPipe(this.pipePrefab);
         let parent = director.getScene().getChildByPath('Canvas/bg')
         parent.insertChild(pipe, 2);
-        if(lastPipe) {
+        if(lastPipe && lastPipe.position.x > -0) {
             x = lastPipe.position.x + math.randomRangeInt(140, 240);
         }
-        let pipe2 = pipe.getChildByName('pipe2');
-        
-        pipe2.setPosition(1000, math.randomRangeInt(280, 320));
-        // console.log(pipe2.position);
+        pipe.getComponent(Pipe).setRand();
         pipe.setPosition(x, y);
+        // console.log(pipe2.position);
         // pipe.getComponent(RigidBody2D).enabled = true;
 
     }
@@ -57,15 +56,25 @@ export class Game extends Component {
         this.scoreLabel.node.active = true;
     }
 
+    backHome(){
+        let startGame = director.getScene().getChildByPath('Canvas/startGame')
+        startGame.active = true;
+        let overGame = director.getScene().getChildByPath('Canvas/gameover')
+        overGame.active = false
+        this.player.getComponent(Player).reset();
+        this.recycleAll();
+        this.global.score = 0; 
+        this.refreshScore();
+        this.scoreLabel.node.active = false;
+    }
+
     overGame() {
         let overGame = director.getScene().getChildByPath('Canvas/gameover')
         overGame.active = true
         this.global.isGameOver = true;
-        // this.recycleAll();
-        // this.scoreLabel.node.active = false;
+
         // this.global.isPause = false;
-        // this.global.score = 0; 
-        // this.player.getComponent(Player).init();
+        
         // let startGame = director.getScene().getChildByPath('Canvas/startGame')
         // startGame.active = false;
     }
@@ -76,7 +85,7 @@ export class Game extends Component {
         parent.children.forEach(element => {
             if(element.name == 'pipe'){
                 // console.log('回收敌机', element)
-                element.setPosition(-600, 1000)
+                element.setPosition(-600, 0)
             }
         })
     }

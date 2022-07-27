@@ -1,5 +1,6 @@
 import { _decorator, Component, Node, UITransform } from 'cc';
 const { ccclass, property } = _decorator;
+import { Global } from './Gobal';
 
 @ccclass('Bg')
 export class Bg extends Component {
@@ -16,9 +17,14 @@ export class Bg extends Component {
     @property({ type: Node })
     groud2: Node = null;
 
+    private global: Global = Global.getInstance();
+
     private _moveBgSpeed: number = 1;
 
     moveBg() {
+        if(this.global.isPause || this.global.isGameOver) {
+            return;
+        }
        //移动背景 
         //    console.log("moveBg");
         let bg1Pos = this.bg1.position;
@@ -42,6 +48,9 @@ export class Bg extends Component {
     }
 
     moveGroud() {
+        if(this.global.isPause || this.global.isGameOver) {
+            return;
+        }
         //移动地面
         let groud1Pos = this.groud1.position;
         let groud2Pos = this.groud2.position;

@@ -31,6 +31,8 @@ export class Player extends Component {
         //键盘事件
         input.on(Input.EventType.KEY_DOWN, this.keyDown, this);
         input.on(Input.EventType.KEY_UP, this.keyUp, this);  
+        //点击事件
+        input.on(Input.EventType.TOUCH_START, this.fly, this);
         // 初始化刚体
         this.rigidBody = this.node.getComponent(RigidBody2D)
         this.rigidBody.type = ERigidBody2DType.Static
@@ -40,6 +42,14 @@ export class Player extends Component {
         if (collider) {
             collider.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
         }
+    }
+
+    reset(){
+        this.node.setPosition(0, 0)
+        this.rigidBody.linearVelocity = v2(0, 0)
+        this.rigidBody.angularVelocity = 0
+        this.rigidBody.type = ERigidBody2DType.Static
+        this.animate.play('bird')
     }
 
     init() {
@@ -54,13 +64,13 @@ export class Player extends Component {
 
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
         if(otherCollider.tag == 1 ){
-            console.log("通过管道");
+            // console.log("通过管道");
             contact.disabled = true;
             this.gainScore();
             // this.node.destroy();
         }
         if(otherCollider.tag == 2 ){
-            console.log("碰到管道");
+            // console.log("碰到管道");
             this.die()
             // this.node.destroy();
         }
@@ -85,8 +95,11 @@ export class Player extends Component {
     // 死亡
     die(){
         this.audio.playOneShot(this.dieClip, 1);
+        this.animate.stop()
+        // 初始化刚体
+        // this.rigidBody = this.node.getComponent(RigidBody2D)
+        // this.rigidBody.type = ERigidBody2DType.Static
         this.global.getGame().overGame()
-        // this.animate.stop()
     }
 
     keyDown(event: EventKeyboard) {
@@ -113,6 +126,8 @@ export class Player extends Component {
     onDestroy() {
         //销毁键盘事件
         input.off(Input.EventType.KEY_DOWN, this.keyDown, this);
+        input.off(Input.EventType.KEY_UP, this.keyUp, this);
+        input.off(Input.EventType.TOUCH_START, this.touchStart, this);
     }
 
     start() {
